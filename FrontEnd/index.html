@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offboarding Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3f37c9;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success: #38b000;
+            --warning: #ffaa00;
+            --danger: #ef233c;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+            padding: 3rem 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-quote {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin-top: 0.5rem;
+        }
+
+        fieldset {
+            border: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .required {
+            color: var(--danger);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+            height: 1rem;
+        }
+
+        .char-counter {
+            text-align: right;
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .final-submit {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(1px);
+        }
+
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        .success-message {
+            background: rgba(56, 176, 0, 0.1);
+            color: var(--success);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid rgba(56, 176, 0, 0.2);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-quote {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 0 1rem 2rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            fieldset {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            input, select, textarea {
+                padding: 0.75rem;
+            }
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Offboarding Form</h1>
+        <div class="header-quote">
+            <p>"Every ending is a new beginning. We appreciate your contributions and wish you success in your next chapter."</p>
+        </div>
+    </header>
+
+    <main>
+        <form id="offboardingForm">
+            <div class="container">
+                <section class="details">
+                    <section class="employee-details">
+                        <h2>Employee Details</h2>
+                        <fieldset>
+                            <label for="empName">Employee Name: <span class="required">*</span></label>
+                            <input type="text" id="empName" name="empName" placeholder="Enter employee name" required maxlength="30"
+                                pattern="^[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*$"
+                                title="Employee Name must start with capital letters and contain only letters and single spaces between names.">
+                            <span id="name-error" class="error-message"></span>
+
+                            <label for="position">Position: <span class="required">*</span></label>
+                            <input type="text" id="position" name="position" placeholder="Enter position" required
+                                pattern="^[A-Za-z]+(?: [A-Za-z]+)*$" maxlength="30"
+                                title="Position must contain only letters and single spaces between words.">
+                            <span id="position-error" class="error-message"></span>
+
+                            <label for="departmentFilter">Department: <span class="required">*</span></label>
+                            <select id="departmentFilter" name="department" required>
+                                <option value="" disabled selected>Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="Finance">Finance</option>
+                            </select>
+                            <span id="department-error" class="error-message"></span>
+
+                            <label for="empId">Employee ID: <span class="required">*</span></label>
+                            <input type="text" id="empId" name="empId" placeholder="Enter employee ID (e.g., ATS0124)" maxlength="7"
+                                required pattern="^ATS0(?!000)\d{3}$"
+                                title="Employee ID must be ATS0 followed by 3 digits.">
+                            <span id="id-error" class="error-message"></span>
+                        </fieldset>
+                    </section>
+
+                    <div class="exit-interview">
+                        <h2>Exit Interview</h2>
+                        <fieldset>
+                            <label for="feedback">Your Feedback: <span class="required">*</span></label>
+                            <textarea id="feedback" name="feedback" rows="5" placeholder="Share your experience..." required
+                                maxlength="500"></textarea>
+                            <span id="feedback-error" class="error-message"></span>
+                            <div id="feedback-counter" class="char-counter">500 characters remaining</div>
+                        </fieldset>
+                    </div>
+
+                    <div class="final-settlement">
+                        <h2>Final Settlement</h2>
+                        <fieldset>
+                            <label for="final-salary">Final Salary Amount: <span class="required">*</span></label>
+                            <input type="number" id="final-salary" name="final_salary" placeholder="Enter final salary" required
+                                min="1000" max="1000000" step="1"
+                                oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
+                            <span id="final-salary-error" class="error-message"></span>
+
+                            <label for="bonus">Bonus Amount: <span class="required">*</span></label>
+                            <input type="number" id="bonus" name="bonus" placeholder="Enter bonus amount (if any)" required
+                                min="0" max="100000" step="0.01"
+                                oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
+                            <span id="bonus-error" class="error-message"></span>
+
+                            <label for="acknowledgment">Acknowledgment: <span class="required">*</span></label>
+                            <textarea id="acknowledgment" name="acknowledgment" rows="3" placeholder="Enter acknowledgment details"
+                                required maxlength="300"></textarea>
+                            <span id="acknowledgment-error" class="error-message"></span>
+                            <div id="acknowledgment-counter" class="char-counter">300 characters remaining</div>
+                        </fieldset>
+                    </div>
+
+                    <div id="success-message" class="success-message" style="display: none;"></div>
+
+                    <div class="final-submit">
+                        <button type="submit">Final Submit</button>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('offboardingForm');
+            const feedbackTextarea = document.getElementById('feedback');
+            const feedbackCounter = document.getElementById('feedback-counter');
+            const acknowledgmentTextarea = document.getElementById('acknowledgment');
+            const acknowledgmentCounter = document.getElementById('acknowledgment-counter');
+            const successMessage = document.getElementById('success-message');
+
+            // Real-time character counters
+            feedbackTextarea.addEventListener('input', function () {
+                // Replace multiple spaces with a single space
+                this.value = this.value.replace(/\s{2,}/g, ' ');
+                const remaining = 500 - this.value.length;
+                feedbackCounter.textContent = `${remaining} characters remaining`;
+            });
+
+            acknowledgmentTextarea.addEventListener('input', function () {
+                // Replace multiple spaces with a single space
+                this.value = this.value.replace(/\s{2,}/g, ' ');
+                const remaining = 300 - this.value.length;
+                acknowledgmentCounter.textContent = `${remaining} characters remaining`;
+            });
+
+            // Real-time input validation
+            document.getElementById('empName').addEventListener('input', function () {
+                const nameError = document.getElementById('name-error');
+                const value = this.value.trim();
+                if (value === '') {
+                    nameError.textContent = '';
+                    return;
+                }
+                if (!/^[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*$/.test(value)) {
+                    nameError.textContent = 'Name must start with capital letters and contain only letters and single spaces.';
+                } else {
+                    nameError.textContent = '';
+                }
+            });
+
+            document.getElementById('position').addEventListener('input', function () {
+                const positionError = document.getElementById('position-error');
+                const value = this.value.trim();
+                if (value === '') {
+                    positionError.textContent = '';
+                    return;
+                }
+                if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value)) {
+                    positionError.textContent = 'Position must contain only letters and single spaces between words.';
+                } else {
+                    positionError.textContent = '';
+                }
+            });
+
+            document.getElementById('empId').addEventListener('input', function () {
+                const idError = document.getElementById('id-error');
+                const value = this.value.trim();
+                if (value === '') {
+                    idError.textContent = '';
+                    return;
+                }
+                if (!/^ATS0(?!000)\d{3}$/.test(value)) {
+                    idError.textContent = 'Employee ID must be ATS0 followed by 3 digits (e.g., ATS0123).';
+                } else {
+                    idError.textContent = '';
+                }
+            });
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                // Trim inputs only during submission
+                const empName = document.getElementById('empName').value.trim();
+                const position = document.getElementById('position').value.trim();
+                const department = document.getElementById('departmentFilter').value;
+                const empId = document.getElementById('empId').value.trim();
+                const feedback = document.getElementById('feedback').value.trim();
+                const finalSalary = parseFloat(document.getElementById('final-salary').value);
+                const bonus = parseFloat(document.getElementById('bonus').value);
+                const acknowledgment = document.getElementById('acknowledgment').value.trim();
+
+                let isValid = true;
+
+                // Form submission validation
+                if (!/^[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*$/.test(empName)) {
+                    document.getElementById('name-error').textContent = 'Please enter a valid name (letters only, starting with capital letters).';
+                    isValid = false;
+                } else {
+                    document.getElementById('name-error').textContent = '';
+                }
+
+                if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(position)) {
+                    document.getElementById('position-error').textContent = 'Please enter a valid position (letters only).';
+                    isValid = false;
+                } else {
+                    document.getElementById('position-error').textContent = '';
+                }
+
+                if (!department) {
+                    document.getElementById('department-error').textContent = 'Please select a department.';
+                    isValid = false;
+                } else {
+                    document.getElementById('department-error').textContent = '';
+                }
+
+                if (!/^ATS0(?!000)\d{3}$/.test(empId)) {
+                    document.getElementById('id-error').textContent = 'Employee ID must be ATS0 followed by 3 digits (e.g., ATS0123).';
+                    isValid = false;
+                } else {
+                    document.getElementById('id-error').textContent = '';
+                }
+
+                if (feedback.length === 0) {
+                    document.getElementById('feedback-error').textContent = 'Please provide your feedback.';
+                    isValid = false;
+                } else if (feedback.length > 500) {
+                    document.getElementById('feedback-error').textContent = 'Feedback must be 500 characters or less.';
+                    isValid = false;
+                } else if (/^[0-9\s\W_]+$/.test(feedback)) {
+                    document.getElementById('feedback-error').textContent = 'Feedback should include meaningful words, not just numbers or symbols.';
+                    isValid = false;
+                } else {
+                    document.getElementById('feedback-error').textContent = '';
+                }
+
+                if (acknowledgment.length === 0) {
+                    document.getElementById('acknowledgment-error').textContent = 'Please provide acknowledgment details.';
+                    isValid = false;
+                } else if (acknowledgment.length > 300) {
+                    document.getElementById('acknowledgment-error').textContent = 'Acknowledgment must be 300 characters or less.';
+                    isValid = false;
+                } else if (/^[0-9\s\W_]+$/.test(acknowledgment)) {
+                    document.getElementById('acknowledgment-error').textContent = 'Acknowledgment should include meaningful words, not just numbers or symbols.';
+                    isValid = false;
+                } else {
+                    document.getElementById('acknowledgment-error').textContent = '';
+                }
+
+                if (isNaN(finalSalary) || finalSalary < 1000 || finalSalary > 1000000) {
+                    document.getElementById('final-salary-error').textContent = 'Salary must be between $1,000 and $1,000,000.';
+                    isValid = false;
+                } else {
+                    document.getElementById('final-salary-error').textContent = '';
+                }
+
+                if (isNaN(bonus) || bonus < 0 || bonus > 100000) {
+                    document.getElementById('bonus-error').textContent = 'Bonus must be between $0 and $100,000.';
+                    isValid = false;
+                } else {
+                    document.getElementById('bonus-error').textContent = '';
+                }
+
+                if (!isValid) return;
+
+                // Submit to server
+                try {
+                    const response = await fetch('http://localhost:3000/api/offboarding/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            empName,
+                            position,
+                            department,
+                            empId,
+                            feedback,
+                            finalSalary,
+                            bonus,
+                            acknowledgment
+                        })
+                    });
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        successMessage.textContent = `Thank you, ${empName}, for completing the offboarding process.`;
+                        successMessage.style.display = 'block';
+                        form.reset();
+                        feedbackCounter.textContent = '500 characters remaining';
+                        acknowledgmentCounter.textContent = '300 characters remaining';
+                    } else {
+                        successMessage.textContent = result.error;
+                        successMessage.style.display = 'block';
+                        successMessage.style.background = 'rgba(239, 35, 60, 0.1)';
+                        successMessage.style.color = '#ef233c';
+                    }
+                } catch (error) {
+                    successMessage.textContent = 'Error submitting form. Please try again.';
+                    successMessage.style.display = 'block';
+                    successMessage.style.background = 'rgba(239, 35, 60, 0.1)';
+                    successMessage.style.color = '#ef233c';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
