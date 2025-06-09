@@ -7,25 +7,22 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-// Middleware
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://127.0.0.1:5501'], // Allow multiple origins
+    origin: ['http://localhost:8080', 'http://127.0.0.1:5501', 'http://127.0.0.1:5503'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
-app.use(morgan('combined')); // Logging middleware
+app.use(morgan('combined')); 
 
-// PostgreSQL database configuration
 const pool = new Pool({
-  user: 'postgres', // Replace with your PostgreSQL username
+  user: 'postgres',
   host: 'localhost',
   database: 'offboarding_db',
-  password: 'Veera@0134', // Replace with your PostgreSQL password
+  password: 'Veera@0134', 
   port: 5432,
 });
 
-// Test database connection
 pool.connect((err, client, release) => {
     if (err) {
         console.error('Error connecting to PostgreSQL:', err.stack);
@@ -36,7 +33,6 @@ pool.connect((err, client, release) => {
     }
 });
 
-// Create offboarding table if it doesn't exist
 const createTableQuery = `
     CREATE TABLE IF NOT EXISTS offboarding (
         id SERIAL PRIMARY KEY,
@@ -59,7 +55,6 @@ pool.query(createTableQuery)
         process.exit(1);
     });
 
-// API endpoint to handle form submission
 app.post('/api/offboarding/submit', async (req, res, next) => {
     console.log('Received POST request to /api/offboarding/submit:', req.body);
     const {
@@ -73,7 +68,6 @@ app.post('/api/offboarding/submit', async (req, res, next) => {
         acknowledgment
     } = req.body;
 
-    // Server-side validation
     if (!empName || !/^[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*$/.test(empName)) {
         return res.status(400).json({ error: 'Invalid employee name' });
     }
@@ -99,7 +93,6 @@ app.post('/api/offboarding/submit', async (req, res, next) => {
         return res.status(400).json({ error: 'Invalid bonus amount' });
     }
 
-    // Insert data into PostgreSQL
     const insertQuery = `
         INSERT INTO offboarding (employee_name, position, department, employee_id, feedback, final_salary, bonus, acknowledgment)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -122,7 +115,6 @@ app.post('/api/offboarding/submit', async (req, res, next) => {
     }
 });
 
-// API endpoint to retrieve all offboarding records
 app.get('/api/offboarding', async (req, res, next) => {
     console.log('Received GET request to /api/offboarding');
     try {
@@ -148,13 +140,11 @@ app.get('/api/offboarding', async (req, res, next) => {
     }
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Server error:', err.stack);
     res.status(500).json({ error: 'Internal server error. Please try again later.' });
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
