@@ -5,10 +5,10 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = 3074;
 
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://127.0.0.1:5501', 'http://127.0.0.1:5503'],
+    origin: ['http://16.171.255.115:8265', 'http://16.171.255.115:8266', 'http://127.0.0.1:5501', 'http://127.0.0.1:5503', 'http://localhost:8265', 'http://localhost:8266'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 }));
@@ -17,9 +17,9 @@ app.use(morgan('combined'));
 
 const pool = new Pool({
   user: 'postgres',
-  host: 'localhost',
+  host: 'postgres',
   database: 'offboarding_db',
-  password: 'Veera@0134', 
+  password: 'admin123', 
   port: 5432,
 });
 
@@ -146,5 +146,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://16.171.255.115:${port}`);
 });
